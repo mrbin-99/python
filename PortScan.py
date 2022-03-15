@@ -1,10 +1,13 @@
-#This code from the book python for cyber security
+#This code take from python for cyber security
+#implements a simple SYN and DNS scan using scapy
+#You can add anoter ports to scan
+
 from scapy.all import *
 import ipaddress
 
 ports = [21,25,80,53,443,445,8080,8443]
 
-def SynScan(host):
+def ScanHost(host):
     ans,unans = sr(
         IP(dst=host)/
         TCP(sport=33333,dport=ports,flags="S")
@@ -14,7 +17,7 @@ def SynScan(host):
         if s[TCP].dport == r[TCP].sport and r[TCP].flags=="SA":
             print(s[TCP].dport)
 
-def DNSScan(host):
+def ScanDns(host):
     ans,unans = sr(
         IP(dst=host)/
         UDP(dport=53)/
@@ -30,5 +33,5 @@ except:
     print("Invalid address")
     exit(-1)
 
-SynScan(host)
-DNSScan(host)
+ScanHost(host)
+ScanDns(host)
